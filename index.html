@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>GSIA DRONE HUB V1 - Universel</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0a1020">
+<style>
+body{margin:0;background:#0a1020;color:#ffb700;font-family:Arial;overflow:hidden}
+.header{padding:15px;background:#111a33;display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid #ffb700}
+.btn{background:#ffb700;color:#000;border:none;padding:12px 20px;border-radius:10px;font-weight:900;margin:5px;cursor:pointer}
+.btn2{background:transparent;color:#ffb700;border:2px solid #ffb700;padding:10px 18px;border-radius:10px;margin:5px;cursor:pointer}
+.grid{display:grid;grid-template-columns:320px 1fr 360px;height:85vh;gap:10px;padding:10px}
+.card{background:#162040;border-radius:15px;padding:15px;border:1px solid #22305a}
+#map{width:100%;height:70%;background:#0d1a33;border-radius:10px;display:flex;align-items:center;justify-content:center}
+</style>
+</head>
+<body>
+<div class="header">
+<b>🛸 GSIA DRONE HUB V1 • LIVE • UNIVERSAL</b>
+<span>MAVLink v2 • DJI SDK v5.2 • PX4 • ArduPilot</span>
+</div>
+
+<div class="grid">
+<div class="card">
+<h3>DRONE TELEMETRY</h3>
+ID: <b>GSIA-DN-0047</b><br><br>
+ALTITUDE: <span id="alt">0 m</span><br>
+SPEED: <span id="spd">0 m/s</span><br>
+BATTERY: <span id="bat">100% • 30min</span><br>
+GPS: 12 SAT • Lomé<br><br>
+
+<button class="btn" onclick="takeoff()">🚀 TAKEOFF 10m</button>
+<button class="btn2" onclick="land()">🛬 LAND</button>
+<button class="btn2" onclick="follow()">🎯 FOLLOW</button>
+<button class="btn2" onclick="rtl()">🏠 RTL</button>
+
+<hr>
+<h4>IA PILOTE</h4>
+<input id="cmd" style="width:90%;padding:10px;border-radius:8px" placeholder="Ex: Surveille le Port de Lomé">
+<button class="btn" onclick="aiPilot()">Envoyer IA</button>
+<p id="aiLog" style="font-size:12px;color:#fff"></p>
+</div>
+
+<div class="card">
+<h3>LIVE MAP - LOMÉ, TOGO</h3>
+<div id="map">🗺️ MAP LOMÉ - Port → Boulevard 13 Janvier<br>Drone: GSIA-DN-0047 • 2.4km from HOME</div>
+<br>
+STATUS: <span id="status" style="color:#00ff88">SYSTEM NOMINAL • Signal -67dBm STRONG</span><br>
+MISSION: PATROL-084 • AUTO
+</div>
+
+<div class="card">
+<h3>AI DETECTIONS - YOLOv8</h3>
+<div style="background:#000;padding:10px;border-radius:10px">
+PERSON • 98% • Pedestrian<br>
+VEHICLE • 92% • Truck<br>
+BUILDING • 87% • Structure<br>
+</div>
+<br>
+<b>COMPATIBILITÉ UNIVERSELLE :</b><br>
+✅ DJI Mavic / Mini / Matrice (via SDK)<br>
+✅ PX4 / ArduPilot (MAVLink)<br>
+✅ Parrot Anafi<br>
+✅ Drone DIY ESP32<br><br>
+<code style="color:#fff;font-size:11px">
+IA Traduction:<br>
+"Va à 100m" → DJI: WaypointMission<br>
+→ MAVLink: MAV_CMD_NAV_WAYPOINT
+</code>
+</div>
+</div>
+
+<script>
+// COEUR UNIVERSEL - C'est ici que l'IA traduit
+function takeoff(){
+ document.getElementById('status').innerText="🚀 TAKEOFF COMMAND - Translating to MAVLink/DJI...";
+ document.getElementById('alt').innerText="10m → 124.5m (sim)";
+ // ICI TU BRANCHERAS TON VRAI DRONE
+ // fetch('https://ton-drone-api/takeoff', {method:'POST'})
+ alert('Commande universelle envoyée !\nPour DJI: DJIWaypoint\nPour MAVLink: MAV_CMD_NAV_TAKEOFF');
+}
+function land(){ alert('LAND Universel → DJI: autoLand() / MAVLink: MAV_CMD_NAV_LAND'); }
+function follow(){ alert('FOLLOW IA → YOLO tracking activé'); }
+function rtl(){ alert('RTL → Retour Maison Lomé 6.1375N,1.2123E'); }
+
+function aiPilot(){
+ let c=document.getElementById('cmd').value;
+ document.getElementById('aiLog').innerText="IA comprend: '"+c+"'\n→ Création mission auto...\n→ Vérif zone ANAC Togo OK\n→ Envoi à tout drone connecté";
+}
+
+// Simulation télémétrie live
+setInterval(()=>{
+ let a=(Math.random()*5+122).toFixed(1);
+ document.getElementById('alt').innerText=a+" m";
+},2000)
+</script>
+</body>
+</html>
